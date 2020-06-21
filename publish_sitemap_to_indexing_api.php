@@ -2,7 +2,7 @@
 //認証用のファイル
 $credentialFile = './credential.json';
 //サイトマップ
-$sitemapIndexUrl = 'https://example.com/sitemap_index.xml';
+$sitemapOrIndexUrls = [];
 
 //制限事項 // https://developers.google.com/search/apis/indexing-api/v3/quota-pricing
 //1分以内に60回以上投げてはいけないので間隔をあける
@@ -12,25 +12,45 @@ $limitPublishPerDay = 200;
 
 require_once './vendor/autoload.php';
 
+//コマンドラインパラメータ
+foreach($argv as $n=>$v){
+    if(startsWith($v, 'http://') || startsWith($v, 'https://') ){
+        $sitemapOrIndexUrls[] = trim($v);
+    }
+}
+if(empty($sitemapOrIndexUrls)){
+    echo 'put sitemap or sitemap index url as commandline parameter';
+    exit;
+}
+
+//URLからサイトマップ取りに行くところ
 $options = ['exceptions' => false,'debug' => false];
 $http = new GuzzleHttp\Client($options);
 
-echo '-getting sitemapindex XML. ' . $sitemapIndexUrl . PHP_EOL;
-$sitemapIndex = readSitemapXml($http, $sitemapIndexUrl);
-
 $list = [];
-foreach($sitemapIndex as $s=>$sitemap){
-    $sitemapUrl = (String)$sitemap->loc;
-    echo '-getting sitemap XML. ' . $sitemapUrl . PHP_EOL;
-    $urlSet = readSitemapXml($http, $sitemapUrl);
-    foreach($urlSet as $n=>$url){
-        $sitemap = [];
-        $sitemap['loc'] = (string)$url->loc;
-        $sitemap['lastmod'] = toJST((string)$url->lastmod);
-        $list[] = $sitemap;
-        echo ' sitemap:' . $sitemap['lastmod'] . ' ' . $sitemap['loc'] .PHP_EOL;
+
+do{
+    $url = array_shift($sitemapOrIndexUrls);
+    echo '-getting XML >> ' . $url . PHP_EOL;
+    $urlSet = readSitemapXml($http, $url);
+    echo ' got ' . count($urlSet) . ' entries.' . PHP_EOL;
+
+    foreach($urlSet as $name=>$data){
+        $loc =  (String)$data->loc;
+        if($name == 'sitemap'){
+            $sitemapOrIndexUrls[] = $loc;
+            echo ' sitemap URL :' . $loc . PHP_EOL;
+        }elseif($name == 'url'){
+            $sitemap = [];
+            $sitemap['loc'] = (string)$data->loc;
+            $sitemap['lastmod'] = toJST((string)$data->lastmod);
+            $list[] = $sitemap;
+            echo ' page :' . $sitemap['lastmod'] . ' ' . $sitemap['loc'] .PHP_EOL;
+        }else{
+            echo " somethign wrong <$name> tag." . PHP_EOL;
+        }
     }
-}
+}while(!empty($sitemapOrIndexUrls));
 
 //更新日の新しい順に並び替え（変わってないものはリクエスト不要）
 foreach($list as $n => $sitemap){
@@ -100,4 +120,9 @@ function toJST($datetime){
     $t = new DateTime($datetime);
     $t->setTimeZone(new DateTimeZone('Asia/Tokyo'));
     return $t->format('Y-m-d H:i:s');
+}
+
+function startsWith($haystack, $needle){
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
 }
