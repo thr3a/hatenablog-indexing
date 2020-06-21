@@ -37,8 +37,6 @@ foreach($list as $n => $sitemap){
     $sort_keys[$n] = $sitemap['lastmod'];
 }
 array_multisort($sort_keys, SORT_DESC, $list);
-var_dump($list);
-
 
 echo '=== URL ====' . PHP_EOL;
 echo count($list)   . PHP_EOL;
