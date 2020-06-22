@@ -1,4 +1,4 @@
-#はてなブログのindexing requestツール
+# はてなブログのindexing requestツール
 
 サイトマップインデックスからサイトマップを取り出し、  
 サイトマップからURLを取り出し、  
@@ -22,7 +22,7 @@ php publish_sitemap_to_indexing_api.php https://kanaxx.hatenablog.jp/sitemap_ind
 php publish_sitemap_to_indexing_api.php "https://kanaxx.hatenablog.jp/sitemap_periodical.xml?year=2020&month=6" "https://kanaxx.hatenablog.jp/sitemap_periodical.xml?year=2020&month=5"
 ```
 
-#参考リンク
+# 参考リンク
 GoogleのIndexing APIを使って、サイトの更新情報を通知する（１）準備まで  
 https://kanaxx.hatenablog.jp/entry/google-indexing-api  
 
