@@ -2,7 +2,7 @@
 //ドメイン
 $siteUrl = 'https://kanaxx.hatenablog.jp/';
 //認証用のファイル
-$credentialFile = './credentical.json';
+$credentialFile = './credential.json';
 
 //サイトマップ
 $sitemapOrIndexUrls = [];
