@@ -1,6 +1,6 @@
 <?php
 //認証用のファイル
-$credentialFile = './hatenablog-609cc3140f9b.json';
+$credentialFile = './credential.json';
 
 //制限事項 // https://developers.google.com/search/apis/indexing-api/v3/quota-pricing
 //1分以内に60回以上投げてはいけないので間隔をあける
