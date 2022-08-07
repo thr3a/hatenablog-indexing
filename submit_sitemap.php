@@ -64,14 +64,14 @@ $endpointBase = 'https://www.googleapis.com/webmasters/v3/sites/' . urlencode($s
 
 $results = [];
 foreach($list as $n=>$sitemap){
-    
+
     $endpoint = $endpointBase . urlencode($sitemap);
 
     //このAPIはPUTするやつ
     $response = $httpClient->put($endpoint);
     $body = $response->getBody()->getContents();
     $json = json_decode($body, true);
-    
+
     $status = $response->getStatusCode();
     $results[$status] = ($results[$status]??0) + 1;
 

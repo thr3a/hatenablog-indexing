@@ -1,0 +1,24 @@
+name: Github Action CI
+
+on:
+  push:
+  schedule:
+    - cron:  '57 22 * * *'
+
+jobs:
+  execute:
+    name: Submit sitemap to Google
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: "Install compose packages"
+        run: composer install
+
+      - name: "Execute PHP"
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        run: |-
+          echo $GCP_CREDENTIALS | base64 -di > credential.json
+          php publish_sitemap_to_indexing_api.php "https://thr3a.hatenablog.com/sitemap_periodical.xml?year=$(date +%Y)&month=$(date +%-m)"

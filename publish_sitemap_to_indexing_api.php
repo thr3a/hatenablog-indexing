@@ -74,15 +74,15 @@ foreach($list as $n=>$sitemap){
     if($limitPublishPerDay <= $n){
         break;
     }
-    
+
     $param = [];
     $param['type'] = 'URL_UPDATED';
     $param['url'] = $sitemap['loc'];
-    
+
     $response = $httpClient->post($endpoint, ['json' => $param]);
     $body = $response->getBody()->getContents();
     $json = json_decode($body, true);
-    
+
     $status = $response->getStatusCode();
     $results[$status] = ($results[$status]??0) + 1;
 

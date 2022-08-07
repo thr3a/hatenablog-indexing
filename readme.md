@@ -44,10 +44,21 @@ php submit_sitemap.php <sitemap_index_url> <sitemap_url> ...
 
 
 # 参考リンク
-GoogleのIndexing APIを使って、サイトの更新情報を通知する（１）準備まで  
-https://kanaxx.hatenablog.jp/entry/google-indexing-api  
+GoogleのIndexing APIを使って、サイトの更新情報を通知する（１）準備まで
+https://kanaxx.hatenablog.jp/entry/google-indexing-api
 
-GoogleのIndexing APIを使って、サイト情報を更新を通知する（２）実行まで  
-https://kanaxx.hatenablog.jp/entry/google-indexing-api-implemantation  
+GoogleのIndexing APIを使って、サイト情報を更新を通知する（２）実行まで
+https://kanaxx.hatenablog.jp/entry/google-indexing-api-implemantation
 
 
+# 追記
+
+```
+php publish_category_url.php https://blog.hatena.ne.jp/thr3a/thr3a.hatenablog.com/atom <API_KEY>
+```
+
+手元でCIテスト
+
+```
+act -s GCP_CREDENTIALS=$(cat credential.json|base64)
+```
