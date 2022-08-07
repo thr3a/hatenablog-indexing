@@ -99,6 +99,9 @@ foreach($list as $n=>$sitemap){
 
 echo '=== Result ===' . PHP_EOL;
 foreach($results as $status=>$count){
+    if($status !== 200) {
+        throw new Exception('Unexpected status code');
+    }
     echo $status . ':' . $count . PHP_EOL;
 }
 echo '==============' . PHP_EOL;
