@@ -1,7 +1,7 @@
 version: '3'
- 
+
 services:
-  rails:
+  main:
     build:
       context: ./
     image: thr3a/hatenablog-indexing
