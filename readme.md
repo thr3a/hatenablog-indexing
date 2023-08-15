@@ -1,5 +1,7 @@
 # はてなブログのindexingツールたち
 
+2023年8月16日
+
 ## Indexing requestツール
 
 Google Indexing APIを使って、ページの更新をGoogleに通知するツール。
