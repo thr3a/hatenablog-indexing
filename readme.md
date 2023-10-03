@@ -1,6 +1,6 @@
 # はてなブログのindexingツールたち
 
-2023年8月16日
+2023-10-04
 
 ## Indexing requestツール
 
